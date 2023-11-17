@@ -1,29 +1,32 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-function AddTodoForm(props) {
+function AddTodoForm({ onAddTodo }) {  // Destructure onAddTodo from props
     const [todoTitle, setTodoTitle] = useState('');
 
-    const handleTitleChange =(event) => {
-      const newTodoTitle = event.target.value;
-      setTodoTitle(newTodoTitle);
+    const handleTitleChange = (event) => {
+        const newTodoTitle = event.target.value;
+        setTodoTitle(newTodoTitle);
     };
 
-    function handleAddTodo(event){
+    function handleAddTodo(event) {
         event.preventDefault();
         console.log(todoTitle);
-        props.onAddTodo({ title: todoTitle, id: Date.now()});
-        setTodoTitle = ("");
+        onAddTodo({ title: todoTitle, id: Date.now() });
+        setTodoTitle("");  // Fix: Use an empty string, not an assignment
     }
+
     return (
-      <form onSubmit={(e) => handleAddTodo(e)}>
-        <label htmlFor="todoTitle">Title</label>
-        <input id = "todoTitle"
-        name = "title"
-        value = {todoTitle}
-        onChange={handleTitleChange}/>
-        <button type="submit">Add</button>
-      </form>
+        <form onSubmit={(e) => handleAddTodo(e)}>
+            <label htmlFor="todoTitle">Title</label>
+            <input
+                id="todoTitle"
+                name="title"
+                value={todoTitle}
+                onChange={handleTitleChange}
+            />
+            <button type="submit">Add</button>
+        </form>
     );
-    }; 
-      
-  export default AddTodoForm;
+}
+
+export default AddTodoForm;
