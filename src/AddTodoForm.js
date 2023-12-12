@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function AddTodoForm({ onAddTodo }) {  // Destructure onAddTodo from props
+function AddTodoForm({ onAddTodo }) {
     const [todoTitle, setTodoTitle] = useState('');
 
     const handleTitleChange = (event) => {
@@ -8,15 +8,16 @@ function AddTodoForm({ onAddTodo }) {  // Destructure onAddTodo from props
         setTodoTitle(newTodoTitle);
     };
 
-    function handleAddTodo(event) {
-        event.preventDefault();
-        console.log(todoTitle);
-        onAddTodo({ title: todoTitle, id: Date.now() });
-        setTodoTitle("");  // Fix: Use an empty string, not an assignment
-    }
+    const handleAddTodo = (event) => {
+      event.preventDefault();
+      console.log('Adding todo:', { title: todoTitle, id: Date.now() });
+      onAddTodo({ title: todoTitle, id: Date.now() });
+      setTodoTitle('');
+  };
+  
 
     return (
-        <form onSubmit={(e) => handleAddTodo(e)}>
+        <form onSubmit={handleAddTodo}>
             <label htmlFor="todoTitle">Title</label>
             <input
                 id="todoTitle"
@@ -27,6 +28,6 @@ function AddTodoForm({ onAddTodo }) {  // Destructure onAddTodo from props
             <button type="submit">Add</button>
         </form>
     );
-}
+  };
 
 export default AddTodoForm;

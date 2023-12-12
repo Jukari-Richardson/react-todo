@@ -1,31 +1,57 @@
-// /src/App.js
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoList from './TodoList';  
-import AddTodoForm from './AddTodoForm'; 
 
+// Custom hook for handling semi-persistent state
+const useSemiPersistentState = () => {
+  // Retrieve saved todo list from localStorage
+  const savedTodoList = localStorage.getItem('savedTodoList');
+
+  // Set initialTodoList based on the saved data (if available)
+  const initialTodoList = savedTodoList ? JSON.parse(savedTodoList) : [];
+
+  // Define state variable todoList and its setter setTodoList using useState hook
+  const [todoList, setTodoList] = useState(initialTodoList);
+
+  // Side effect using useEffect hook to update localStorage when todoList changes
+  useEffect(() => {
+    localStorage.setItem('savedTodoList', JSON.stringify(todoList));
+  }, [todoList]);
+
+  // Return todoList state and its setter for use in components
+  return [todoList, setTodoList];
+};
+
+// Main App component
 function App() {
-  // Remove newTodo state variable
+  // Use custom hook to get todoList state and its setter
+  const [todoList, setTodoList] = useSemiPersistentState();
 
-  // Step 1: Create a state variable named todoList with a default value of an empty array
-  const [todoList, setTodoList] = useState([]);
-
-  // Step 2: Declare a new function named addTodo that takes newTodo as a parameter
+  // Function to add a new todo to the list
   const addTodo = (newTodo) => {
-    // Step 3: Call the setTodoList state setter
-    // Use the spread operator to pass the existing Objects in the todoList Array along with the newTodo Object
+    // Update todoList using the setTodoList setter
     setTodoList([...todoList, newTodo]);
   };
 
-  return (
-    <div>
-      {/* Step 4: Change the value of the onAddTodo prop for AddTodoForm to addTodo */}
-      <AddTodoForm onAddTodo={addTodo} />
+  // Side effect using useEffect hook to update localStorage when todoList changes
+  useEffect(() => {
+    localStorage.setItem('savedTodoList', JSON.stringify(todoList));
+  }, [todoList]);
 
-      {/* Render TodoList component and pass todoList state as a prop */}
-      <TodoList todoList={todoList} />
-    </div>
+  // Render JSX
+  return (
+    <>
+      <h1>Todo List</h1>
+      
+      {/* Component for adding a new todo */}
+      
+      
+      {/* Component for displaying the todo list */}
+      <TodoList todoList={todoList} onAddTodo={addTodo} />
+    </>
   );
 }
 
 export default App;
+
+
+
