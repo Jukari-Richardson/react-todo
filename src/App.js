@@ -32,6 +32,12 @@ function App() {
     setTodoList([...todoList, newTodo]);
   };
 
+   // Handler function to remove a todo item by id
+   const removeTodo = (id) => {
+    const updatedTodoList = todoList.filter((item) => item.id !== id);
+    setTodoList(updatedTodoList);
+  };
+
   // Side effect using useEffect hook to update localStorage when todoList changes
   useEffect(() => {
     localStorage.setItem('savedTodoList', JSON.stringify(todoList));
@@ -42,11 +48,8 @@ function App() {
     <>
       <h1>Todo List</h1>
       
-      {/* Component for adding a new todo */}
-      
-      
       {/* Component for displaying the todo list */}
-      <TodoList todoList={todoList} onAddTodo={addTodo} />
+      <TodoList todoList={todoList} onAddTodo={addTodo} onRemoveTodo={removeTodo} />
     </>
   );
 }

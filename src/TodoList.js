@@ -13,12 +13,15 @@ function TodoList() {
         setTodoList((prevTodoList) => [...prevTodoList, newTodo]);
     };
 
+    const removeTodo = (id) => {
+      setTodoList((prevTodoList) => prevTodoList.filter((todo) => todo.id !== id));
+  };
     return (
         <div>
           <AddTodoForm onAddTodo={handleAddTodo}/>
             <ul>
             {todoList.map((item) => (
-  <TodoListItem key={item.id} id={item.id} title={item.title} />
+  <TodoListItem key={item.id} id={item.id} title={item.title} onRemoveTodo={removeTodo} />
 ))}
 
             </ul>
