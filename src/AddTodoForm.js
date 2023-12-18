@@ -16,16 +16,18 @@ const AddTodoForm = ({ onAddTodo }) => {
 
   return (
     <form onSubmit={handleAddTodo}>
-      {/* Pass value and onChange directly to the input */}
       <InputWithLabel
-        label="Title"
+        id="todoTitle"
         value={todoTitle}
         onChange={handleTitleChange}
         autoFocus
-      />
+      >
+        Title:
+      </InputWithLabel>
       <button type="submit">Add</button>
     </form>
   );
 };
 
 export default AddTodoForm;
+
