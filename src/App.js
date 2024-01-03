@@ -21,31 +21,58 @@ const [isLoading, setisLoading] = useState(true)
     const updatedTodoList = todoList.filter((item) => item.id !== id);
     setTodoList(updatedTodoList);
   };
+  
+  const fetchData = async () => {
+    // Declare an empty object variable named options
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+      },
+    };
 
+    // Create a new variable url
+    const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
+
+    try {
+      // Fetch data from Airtable
+      const response = await fetch(url, options);
+
+      // Check if response.ok is false
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      // Parse the response
+      const data = await response.json();
+
+      // Console statement to observe Airtable's API response
+      console.log('Example response:', data);
+
+      // Map data.records into an array of todo objects
+      const todos = data.records.map(record => ({
+        title: record.fields.title,
+        id: record.id,
+      }));
+
+      // Console statement to observe the transformed todos array
+      console.log('Transformed todos:', todos);
+
+      // Set the application's todoList
+      setTodoList(todos);
+
+      // Set isLoading to false to indicate the fetch is complete
+      setisLoading(false);
+    } catch (error) {
+      // Console statement to log the error's message
+      console.error('Error during fetch:', error.message);
+    }
+  };
+
+  // Replace the contents of the useEffect with a call to fetchData()
   useEffect(() => {
-    // Inside the side-effect handler function, define a new Promise
-    const fetchData = new Promise((resolve, reject) => {
-      // Inside the callback function passed to the Promise constructor
-      setTimeout(() => {
-        // Call the resolve callback after a delay of 2000 milliseconds (2 seconds)
-        resolve({
-          // Pass an object with property data
-          data: {
-            // Inside the data object, add a property todoList
-            todoList: todoList, // Set its value to the initial/default list state
-          },
-        });
-      }, 2000);
-    });
-
-    // Use the fetchData Promise
-    fetchData.then((result) => {
-      // Update the todoList state with the data received from the Promise
-      setTodoList(result.data.todoList);
-    // Set isLoading to false after data is loaded
-    setisLoading(false);
-    });
-  }, [todoList]); // Empty dependency list
+    fetchData();
+  }, []); // Empty dependency list
 
   // Side effect using useEffect hook to update localStorage when todoList changes
   useEffect(() => { 
