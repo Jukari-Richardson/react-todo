@@ -11,6 +11,7 @@ function App() {
   ]);
 
   const [isLoading, setisLoading] = useState(true);
+
   // Function to add a new todo to the list
   const addTodo = (newTodo) => {
     // Update todoList using the setTodoList setter
@@ -51,10 +52,14 @@ function App() {
       console.log("Example response:", data);
 
       // Map data.records into an array of todo objects
-      const todos = data.records.map((record) => ({
-        title: record.fields.title,
-        id: record.id,
-      }));
+      const todos = data.records.map((records) => {
+        console.log("Record Fields:", records.fields);
+
+        return {
+          Title: records.fields.Title,
+          id: records.id,
+        };
+      });
 
       // Console statement to observe the transformed todos array
       console.log("Transformed todos:", todos);
@@ -82,7 +87,6 @@ function App() {
     }
   }, [todoList, isLoading]);
 
-  // Render JSX
   return (
     <BrowserRouter>
       <Routes>
@@ -91,7 +95,6 @@ function App() {
           element={
             <>
               <h1>Todo List</h1>
-              {/* Component for displaying the todo list */}
               {isLoading ? (
                 <p>Loading...</p>
               ) : (
@@ -105,7 +108,23 @@ function App() {
           }
         />
 
-        <Route path="/new" element={<h1>New Todo List</h1>} />
+        <Route
+          path="/new"
+          element={
+            <>
+              <h1>New Todo List</h1>
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <TodoList
+                  todoList={todoList}
+                  onAddTodo={addTodo}
+                  onRemoveTodo={removeTodo}
+                />
+              )}
+            </>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

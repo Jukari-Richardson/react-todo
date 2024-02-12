@@ -1,0 +1,46 @@
+body {
+    background-color: #f0f0f0; /* Light gray background */
+    color: #333; /* Dark gray text color */
+    font-family: 'Arial', sans-serif; /* Use Arial or any other preferred font */
+    
+}
+
+nav {
+    background-color: #007bff; /* Blue background for navigation */
+    color: #fff; /* White text color */
+  }
+
+  li {
+    margin-bottom: 10px; /* Add margin between list items */
+  }
+
+  h1{
+    text-align: center;
+    border: #333;
+  }
+
+  h1, h2, h3 {
+    font-size: 24px; /* Adjust heading font size */
+    font-weight: bold; /* Make headings bold */
+    color: #333; /* Dark gray heading color */
+  }
+  
+  input, button {
+    padding: 8px; /* Add padding to input and button elements */
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 4px; /* Add border-radius for rounded corners */
+  }
+  
+  button {
+    background-color: #007bff; /* Blue background for buttons */
+    color: #fff; /* White text color */
+  }
+  
+  @media (max-width: 768px) {
+    /* Styles for tablets and smaller screens */
+  }
+  
+  @media (max-width: 480px) {
+    /* Styles for mobile devices */
+  }
+  
